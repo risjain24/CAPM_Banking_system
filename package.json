@@ -20,8 +20,19 @@
     "requires": {
       "connectivity": true,
       "destinations": true,
-      "[production]": {
-        "auth": "xsuaa"
+      "auth": {
+        "[production]": {
+          "strategy": "JWT"
+        },
+        "[development]": {
+          "strategy": "mock",
+          "users": {
+            "rish@gmail.com": {
+              "password": "rishabh",
+              "roles": [ "AdminRole" ]
+            }
+          }
+        }
       }
     }
   }

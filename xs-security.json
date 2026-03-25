@@ -1,37 +1,29 @@
 {
+  "tenant-mode": "dedicated",
+  "xsappname": "banking",
   "scopes": [
     {
       "name": "$XSAPPNAME.Customer",
-      "description": "Customer"
+      "description": "Customer Scope"
     },
     {
       "name": "$XSAPPNAME.Admin",
-      "description": "Admin"
+      "description": "Admin Scope"
     },
     {
       "name": "$XSAPPNAME.RM",
-      "description": "RM"
+      "description": "RM Scope"
     }
   ],
   "attributes": [],
   "role-templates": [
     {
-      "name": "CustomerRole",
-      "scope-references": [
-        "$XSAPPNAME.Customer"
-      ]
-    },
-    {
       "name": "AdminRole",
+      "description": "Admin Role",
       "scope-references": [
         "$XSAPPNAME.Admin"
       ]
-    },
-    {
-      "name": "RMRole",
-      "scope-references": [
-        "$XSAPPNAME.RM"
-      ]
     }
-  ]
+  ],
+  "authorities-inheritance": false 
 }

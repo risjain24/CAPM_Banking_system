@@ -17,7 +17,5 @@ service BankingService {
 annotate BankingService with @(requires: 'authenticated-user');
 
 annotate BankingService.Customers with @(restrict: [
-    { grant: 'READ', to: 'Customer'},
-    { grant: ['READ','UPDATE'], to: 'RM'},
-    { grant: '*', to: 'Admin'}
+    { grant: '*', to: 'AdminRole'}
 ]);
