@@ -10,7 +10,6 @@ entity Customers : cuid, managed {
   name     : String;
   email    : String;
   phone    : String;
-  balance  : Decimal(15, 2);
   rm       : Association to RelationshipManagers;
   accounts : Composition of many Accounts
                on accounts.customer = $self;

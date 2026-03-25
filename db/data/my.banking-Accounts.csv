@@ -1,1 +1,5 @@
 ID,type,balance,customer_ID,createdAt,createdBy,modifiedAt,modifiedBy
+1,Savings,75757.23,1,2026-01-01,system,2026-01-01,system
+2,Current,122322.44,3,2026-01-10,system,2026-01-10,system
+3,Savings,456.00,2,2026-01-21,system,2026-01-21,system
+4,Savings,7500.34,4,2026-02-13,system,2026-02-13,system

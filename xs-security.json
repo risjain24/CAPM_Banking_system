@@ -1,13 +1,37 @@
 {
   "scopes": [
-    { "name": "$XSAPPNAME.Customer" },
-    { "name": "$XSAPPNAME.Admin" },
-    { "name": "$XSAPPNAME.RM" }
+    {
+      "name": "$XSAPPNAME.Customer",
+      "description": "Customer"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Admin"
+    },
+    {
+      "name": "$XSAPPNAME.RM",
+      "description": "RM"
+    }
   ],
   "attributes": [],
   "role-templates": [
-    { "name": "CustomerRole", "scope-references": ["$XSAPPNAME.Customer"] },
-    { "name": "AdminRole", "scope-references": ["$XSAPPNAME.Admin"] },
-    { "name": "RMRole", "scope-references": ["$XSAPPNAME.RM"] }
+    {
+      "name": "CustomerRole",
+      "scope-references": [
+        "$XSAPPNAME.Customer"
+      ]
+    },
+    {
+      "name": "AdminRole",
+      "scope-references": [
+        "$XSAPPNAME.Admin"
+      ]
+    },
+    {
+      "name": "RMRole",
+      "scope-references": [
+        "$XSAPPNAME.RM"
+      ]
+    }
   ]
 }
