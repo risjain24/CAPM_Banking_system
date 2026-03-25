@@ -5,10 +5,16 @@ module.exports = (srv) => {
 
     srv.on('deposit', async (req) => {
         const { accountId, amount } = req.data;
-        if (amount < 0) req.error(400, 'Invalid amount');
+        if (amount < 0) {
+            req.error(400, 'Invalid amount');
+            return;
+        }
 
         let account = await SELECT.one.from(Accounts).where({ ID: accountId });
-        if (!account) req.error(404, 'Account not found');
+        if (!account) {
+            req.error(404, 'Account not found');
+            return;
+        }
 
         await UPDATE(Accounts).set({ balance: account.balance + amount }).where({ ID: accountId });
 
@@ -19,13 +25,15 @@ module.exports = (srv) => {
         return account.balance + amount;
     })
 
-    srv.on('Withdraw', async (req) => {
+    srv.on('withdraw', async (req) => {
         const { accountId, amount } = req.data;
 
         let account = await SELECT.one.from(Accounts).where({ ID: accountId });
 
-        if (account.balance < amount)
+        if (account.balance < amount) {
             req.error(400, 'Insufficient balance');
+            return;
+        }
 
         await UPDATE(Accounts).set({ balance: account.balance - amount }).where({ ID: accountId });
 
@@ -34,5 +42,28 @@ module.exports = (srv) => {
         });
 
         return account.balance - amount;
+    });
+
+    srv.on('getBalance', async (req) => {
+        const { accountId } = req.data;
+
+        const account = await SELECT.one.from(Accounts)
+            .where({ ID: accountId });
+
+        if (!account) {
+            req.error(404, 'Account not found');
+            return;
+        }
+
+        return account.balance;
+    });
+
+    srv.on('getCustomerAccounts', async (req) => {
+        const { customerId } = req.data;
+
+        const accounts = await SELECT.from('Accounts')
+            .where({ customer_ID: customerId });
+
+        return accounts;
     });
 }

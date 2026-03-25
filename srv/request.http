@@ -1,0 +1,46 @@
+### Get Customers Valid Auth (username = 'rish' converted to Base64
+GET http://localhost:4004/odata/v4/banking/Customers
+Authorization: Basic cmlzaDoxMjM0
+Accept: application/json
+
+### Get Customers invalid Auth
+GET http://localhost:4004/odata/v4/banking/Customers
+Authorization: Basic cmlzaDawdawd
+Accept: application/json
+
+### Get Accounts(No Authorization) Only authenticated user needed
+GET http://localhost:4004/odata/v4/banking/Accounts
+Authorization: Basic cawdawdawd
+Accept: application/json
+
+### Get Balance Function
+GET http://localhost:4004/odata/v4/banking/getBalance(accountId='1')
+Authorization: Basic cmlzaDoxM
+Accept: application/json
+
+### Get Customer Accounts
+GET http://localhost:4004/odata/v4/banking/getCustomerAccounts(customerId='1')
+Authorization: Basic cmlzaDoxM
+Accept: application/json
+
+### Action deposit
+POST http://localhost:4004/odata/v4/banking/deposit
+Authorization: Basic cmlzaDoxMjM0
+Content-Type: application/json
+Accept: application/json
+
+{
+    "accountId": "1",
+    "amount": 2000
+}
+
+### Withdraw Deposit
+POST http://localhost:4004/odata/v4/banking/withdraw
+Authorization: Basic cmlzaDoxMjM0
+Content-Type: application/json
+Accept: application/json
+
+{
+    "accountId": "1",
+    "amount": 2000
+}
