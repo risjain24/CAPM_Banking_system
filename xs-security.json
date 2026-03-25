@@ -1,6 +1,6 @@
 {
   "tenant-mode": "dedicated",
-  "xsappname": "banking",
+  "xsappname": "banking_capm",
   "scopes": [
     {
       "name": "$XSAPPNAME.Customer",

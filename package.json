@@ -27,10 +27,7 @@
         "[development]": {
           "strategy": "mock",
           "users": {
-            "rish@gmail.com": {
-              "password": "rishabh",
-              "roles": [ "AdminRole" ]
-            }
+            "rish": { "roles": [ "AdminRole" ]}
           }
         }
       }
