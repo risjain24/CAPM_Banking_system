@@ -13,6 +13,11 @@ GET http://localhost:4004/odata/v4/banking/Accounts
 Authorization: Basic cawdawdawd
 Accept: application/json
 
+### Get Transactions
+GET http://localhost:4004/odata/v4/banking/Transactions
+Authorization: Basic cawdawdawd
+Accept: application/json
+
 ### Get Balance Function
 GET http://localhost:4004/odata/v4/banking/getBalance(accountId='1')
 Authorization: Basic cmlzaDoxM
@@ -42,5 +47,5 @@ Accept: application/json
 
 {
     "accountId": "1",
-    "amount": 2000
+    "amount": 10000
 }
