@@ -27,10 +27,11 @@
   ],
   "authorities-inheritance": false,
   "oauth2-configuration": {
-    "redirect-urls": [
+    "redirectUris": [
       "http://localhost:4004/**",
       "https://*.trial.applicationstudio.cloud.sap/**",
-      "https://*.cfapps.us10-001.hana.ondemand.com/**"
+      "https://*.cfapps.us10-001.hana.ondemand.com/**",
+      "https://*.cf.us10-001.hana.ondemand.com/**"
     ]
   }
 }

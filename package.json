@@ -42,11 +42,15 @@
           }
         }
       },
-      "db": "hana",
+      "db": {
+        "kind": "hana-cloud"
+      },
       "[production]": {
-        "db": "hana",
+        "db": {
+        "kind": "hana-cloud"
+        },
         "auth": {
-          "kind": "xsuaa"
+        "kind": "xsuaa"
         }
       },
       "html5-repo": true,
