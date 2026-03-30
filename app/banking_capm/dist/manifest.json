@@ -29,6 +29,18 @@
 					"odataVersion": "4.01"
 				}
 			}
+		},
+		"crossNavigation": {
+			"inbounds": {
+				"banking_capm-display": {
+					"semanticObject": "banking_capm",
+					"action": "display",
+					"signature": {
+						"parameters": {},
+						"additionalParameters": "allowed"
+					}
+				}
+			}
 		}
 	},
 	"sap.ui": {

@@ -7,12 +7,12 @@
       "description": "Customer Scope"
     },
     {
-      "name": "$XSAPPNAME.Admin",
-      "description": "Admin Scope"
-    },
-    {
       "name": "$XSAPPNAME.RM",
       "description": "RM Scope"
+    },
+    {
+      "name": "$XSAPPNAME.AdminRole",
+      "description": "AdminRole"
     }
   ],
   "attributes": [],
@@ -21,9 +21,16 @@
       "name": "AdminRole",
       "description": "Admin Role",
       "scope-references": [
-        "$XSAPPNAME.Admin"
+        "$XSAPPNAME.AdminRole"
       ]
     }
   ],
-  "authorities-inheritance": false 
+  "authorities-inheritance": false,
+  "oauth2-configuration": {
+    "redirect-urls": [
+      "http://localhost:4004/**",
+      "https://*.trial.applicationstudio.cloud.sap/**",
+      "https://*.cfapps.us10-001.hana.ondemand.com/**"
+    ]
+  }
 }
