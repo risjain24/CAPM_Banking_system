@@ -8,8 +8,6 @@ modules:
   path: gen/srv
   requires:
   - name: banking_capm-db
-  - name: banking_capm-connectivity
-  - name: banking_capm-destination
   - name: banking_capm-auth
   provides:
   - name: srv-api
@@ -20,28 +18,66 @@ modules:
     instances: 1
   build-parameters:
     builder: npm-ci
+
 - name: banking_capm-db-deployer
   type: hdb
   path: gen/db
   requires:
   - name: banking_capm-db
-  parameters:
-    buildpack: nodejs_buildpack
+  - name: banking_capm-repo-host
+
 - name: banking_capm-app-content
   type: com.sap.application.content
   path: .
   requires:
-  - name: banking_capm-repo-host
+  - name: banking_capm-destination
     parameters:
       content-target: true
+  - name: banking_capm-repo-host
+    parameters:
+      service-key:
+        name: banking_capm-repo-host-key
+  - name: banking_capm-auth
+    parameters:
+      service_key:
+        name: banking_capm-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: banking_capm
+          ServiceInstanceName: banking_capm-repo-host
+          ServiceKeyName: banking_capm-repo-host-key
+          sap.cloud.service: banking_capm
+        - Authentication: OAuth2UserTokenExchange
+          Name: banking_capm-auth
+          ServiceInstanceName: banking_capm-auth
+          ServiceKeyName: banking_capm-auth-key
+          sap.cloud.service: banking_capm
+        existing_destinations_policy: ignore
   build-parameters:
-    build-result: resources
+    no-source: true
+
+- name: banking_capm-app-deployer
+  type: com.sap.application.content
+  path: gen
+  requires:
+    - name: banking_capm-auth
+    - name: srv-api
+    - name: banking_capm-repo-host
+      parameters:
+        config:
+          HTML5Runtime_enabled: true
+        content-target: true
+  build-parameters:
+    build-result: app/
     requires:
-    - artifacts:
-      - bankingcapm.zip
-      name: bankingcapm
-      target-path: resources/
-- name: bankingcapm
+      - artifacts:
+        - bankingcapm.zip
+        name: banking_capm
+        target-path: app/
+
+- name: banking_capm
   type: html5
   path: app/banking_capm
   build-parameters:
@@ -51,33 +87,32 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
+
 resources:
 - name: banking_capm-db
   type: com.sap.xs.hdi-container
   parameters:
     service: hana
     service-plan: hdi-shared
-- name: banking_capm-connectivity
-  type: org.cloudfoundry.managed-service
-  parameters:
-    service: connectivity
-    service-plan: lite
+
 - name: banking_capm-destination
   type: org.cloudfoundry.managed-service
   parameters:
+    service: destination
+    service-plan: lite
     config:
-      HTML5Runtime_enabled: false
+      HTML5Runtime_enabled: true
+      version: 1.0.0
       init_data:
         instance:
           destinations:
-          - Authentication: NoAuthentication
-            Name: ui5
+          - Name: ui5
+            URL: https://ui5.sap.com
+            Authentication: NoAuthentication
             ProxyType: Internet
             Type: HTTP
-            URL: https://ui5.sap.com
           existing_destinations_policy: update
-    service: destination
-    service-plan: lite
+
 - name: banking_capm-auth
   type: org.cloudfoundry.managed-service
   parameters:
@@ -91,18 +126,20 @@ resources:
     path: ./xs-security.json
     service: xsuaa
     service-plan: application
+
 - name: banking_capm-repo-host
   type: org.cloudfoundry.managed-service
   parameters:
     service: html5-apps-repo
-    service-name: banking_capm-html5-service
     service-plan: app-host
+
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
+
 build-parameters:
   before-all:
   - builder: custom
     commands:
-    - npm ci
-    - npx cds build --production
+      - npm ci
+      - npx cds build --production

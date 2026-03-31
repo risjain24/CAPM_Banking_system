@@ -49,3 +49,10 @@ Accept: application/json
     "accountId": "1",
     "amount": 10000
 }
+
+###
+curl -X POST \
+  "https://3ab10685trial.authentication.us10.hana.ondemand.com/oauth/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -u "sb-banking_capm-3ab10685trial-dev!t620376:c7d7e955-5708-4d6e-a66a-fe50fdaea0f3$Oq7YAhNxLtohdwV2LfT8zW9uS1C4MrRmKaRuyFIixEs=" \
+  -d "grant_type=client_credentials"

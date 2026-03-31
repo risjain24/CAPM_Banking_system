@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "cds-serve",
-    "deploy": "mbt build && cf deploy mta_archives/banking_capm_1.0.0.mtar",
+    "deploy": "mbt build && cf deploy mta_archives/banking_capm_1.0.0.mtar --delete-services",
     "watch-banking_capm": "cds watch --open bankingcapm/index.html?sap-ui-xx-viewCache=false --livereload false",
     "undeploy": "cf undeploy banking_capm --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive"
@@ -25,7 +25,6 @@
   "private": true,
   "cds": {
     "requires": {
-      "connectivity": true,
       "destinations": true,
       "auth": {
         "[production]": {
@@ -44,14 +43,6 @@
       },
       "db": {
         "kind": "hana-cloud"
-      },
-      "[production]": {
-        "db": {
-        "kind": "hana-cloud"
-        },
-        "auth": {
-        "kind": "xsuaa"
-        }
       },
       "html5-repo": true,
       "workzone": true
