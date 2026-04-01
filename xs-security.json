@@ -11,8 +11,8 @@
       "description": "RM Scope"
     },
     {
-      "name": "$XSAPPNAME.AdminRole",
-      "description": "AdminRole"
+      "name": "$XSAPPNAME.Admin",
+      "description": "Admin Scope"
     }
   ],
   "attributes": [],
@@ -21,7 +21,7 @@
       "name": "AdminRole",
       "description": "Admin Role",
       "scope-references": [
-        "$XSAPPNAME.AdminRole"
+        "$XSAPPNAME.Admin"
       ]
     }
   ],
