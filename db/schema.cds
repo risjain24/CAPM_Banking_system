@@ -1,7 +1,7 @@
 using {
   cuid,
   managed,
-  // sap.common.CodeList
+// sap.common.CodeList
 } from '@sap/cds/common';
 
 namespace my.banking;
@@ -36,7 +36,16 @@ entity Accounts : cuid, managed {
 }
 
 entity Transactions : cuid, managed {
-  amount  : Decimal(15, 2);
-  type    : String;
-  account : Association to Accounts;
+  amount      : Decimal(15, 2);
+  type        : String enum {
+    DEPOSIT;
+    WITHDRAWAL;
+    TRANSFER_OUT;
+    TRANSFER_IN;
+  };
+  account     : Association to Accounts;
+  note        : String;
+  transferRef : UUID;
+  toAccount   : Association to Accounts;
+  fromAccount : Association to Accounts;
 }

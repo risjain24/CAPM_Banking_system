@@ -1,21 +1,37 @@
 using my.banking as db from '../db/schema';
 
 service BankingService {
-    entity Customers as projection on db.Customers;
-    entity Accounts as projection on db.Accounts;
-    entity Transactions as projection on db.Transactions;
+    entity Customers            as projection on db.Customers;
+
+    @cds.redirection.target: true
+    entity Accounts             as projection on db.Accounts;
+
+    entity Transactions         as projection on db.Transactions;
     entity RelationshipManagers as projection on db.RelationshipManagers;
 
-    action deposit(accountId: UUID, amount: Decimal) returns Decimal;
-    action withdraw(accountId: UUID, amount: Decimal) returns Decimal;
-    action UpdateCustomerDetail(customerId: UUID, name: String, phone: String);
+    @readonly
+    entity TransferTargets      as
+        select from db.Accounts {
+            ID,
+            type,
+            customer.name as holderName : String
+        };
 
-    function getBalance(accountId: UUID) returns Decimal;
-    function getCustomerAccounts(customerId: UUID) returns many Accounts;
+    action   initiateTransfer(fromAccountId: UUID,
+                              toAccountId: UUID,
+                              amount: Decimal(15, 2),
+                              note: String)             returns String;
+
+    action   deposit(accountId: UUID, amount: Decimal)  returns Decimal;
+    action   withdraw(accountId: UUID, amount: Decimal) returns Decimal;
+
+    function getBalance(accountId: UUID)                returns Decimal;
+    function getCustomerAccounts(customerId: UUID)      returns many Accounts;
 }
 
 annotate BankingService with @(requires: 'authenticated-user');
 
-annotate BankingService.Customers with @(restrict: [
-    { grant: '*', to: 'Admin'}
-]);
+// annotate BankingService.Customers with @(restrict: [{
+//     grant: '*',
+//     to   : 'Admin'
+// }]);

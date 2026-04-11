@@ -51,8 +51,13 @@ Accept: application/json
 }
 
 ###
-curl -X POST \
-  "https://3ab10685trial.authentication.us10.hana.ondemand.com/oauth/token" \
-  -H "Content-Type: application/x-www-form-urlencoded" \
-  -u "sb-banking_capm-3ab10685trial-dev!t620376:c7d7e955-5708-4d6e-a66a-fe50fdaea0f3$Oq7YAhNxLtohdwV2LfT8zW9uS1C4MrRmKaRuyFIixEs=" \
-  -d "grant_type=client_credentials"
+POST http://localhost:4004/odata/v4/banking/initiateTransfer
+Authorization: Basic c2lkc0BoLmNvbQ==
+Content-Type: application/json
+
+{
+    "fromAccountId": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+    "toAccountId": "9d8c7b6a-5e4f-4a3b-2c1d-0e9f8a7b6c5d",
+    "amount": 930,
+    "note": "Purchase"
+}
