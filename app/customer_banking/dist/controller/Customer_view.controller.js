@@ -1,2 +1,2 @@
-sap.ui.define(["sap/ui/core/mvc/Controller"],e=>{"use strict";return e.extend("customerbanking.controller.Customer_view",{onInit(){}})});
+sap.ui.define(["sap/ui/core/mvc/Controller"],e=>{"use strict";return e.extend("customerbanking.controller.Customer_view",{onInit:function(){const e=this.getOwnerComponent().getModel();const o=e.bindList("/Customers");o.requestContexts().then(e=>{if(!e.length){console.error("No profile found");return}const o=e[0].getObject();const t=new JSONModel(o);this.getView().setModel(t,"profile")}).catch(e=>{console.error("Failed to load profile",e)})},onNavToAccounts:function(){this.getOwnerComponent().getRouter().navTo("Account_List")}})});
 //# sourceMappingURL=Customer_view.controller.js.map

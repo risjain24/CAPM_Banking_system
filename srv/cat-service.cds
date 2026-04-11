@@ -31,7 +31,7 @@ service BankingService {
 
 annotate BankingService with @(requires: 'authenticated-user');
 
-annotate BankingService.Customers with @(restrict: [{
-    grant: '*',
-    to   : 'Admin'
-}]);
+// annotate BankingService.Customers with @(restrict: [{
+//     grant: '*',
+//     to   : 'Admin'
+// }]);

@@ -1,0 +1,22 @@
+<mvc:View
+    controllerName="customerbanking.controller.Transaction_List"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="_IDGenPage2" title="Transactions" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <List
+                id="transactionList"
+                items="{Transactions}"
+                noDataText="No transactions found">
+
+                <StandardListItem id="_IDGenStandardListItem2"
+                    title="{type}"
+                    description="Amount: {amount} | {note}"
+                    info="{createdAt}"
+                    infoState="{= ${type} === 'DEPOSIT' || ${type} === 'TRANSFER_IN'
+                                    ? 'Success' : 'Error' }"/>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

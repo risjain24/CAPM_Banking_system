@@ -1,0 +1,39 @@
+<mvc:View 
+    xmlns:form="sap.ui.layout.form"
+    controllerName="customer.banking.controller.AccountDetail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="_IDGenPage" title="Account Details" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <VBox id="_IDGenVBox1" class="sapUiMediumMargin">
+
+                <!-- Account Info -->
+                <Panel id="_IDGenPanel1" headerText="Account Info">
+                    <content>
+                        <form:SimpleForm id="_IDGenSimpleForm">
+                            <Label id="_IDGenLabel3" text="Type"/>
+                            <Text id="accountType"/>
+                            <Label id="_IDGenLabel4" text="Balance"/>
+                            <Text id="accountBalance"/>
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- Action Buttons -->
+                <HBox id="_IDGenHBox" class="sapUiMediumMarginTop" justifyContent="SpaceBetween">
+                    <Button id="_IDGenButton2" text="Deposit"  type="Success" press="onDeposit"/>
+                    <Button id="_IDGenButton3" text="Withdraw" type="Negative" press="onWithdraw"/>
+                    <Button id="_IDGenButton4" text="Transfer" type="Emphasized" press="onTransfer"/>
+                </HBox>
+
+                <!-- Navigate to Transactions -->
+                <Button id="_IDGenButton5"
+                    text="View Transactions"
+                    press="onNavToTransactions"
+                    class="sapUiMediumMarginTop"/>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

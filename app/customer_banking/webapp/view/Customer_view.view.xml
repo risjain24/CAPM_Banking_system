@@ -1,6 +1,30 @@
-<mvc:View controllerName="customerbanking.controller.Customer_view"
+<mvc:View 
+    xmlns:form="sap.ui.layout.form" 
+    controllerName="customerbanking.controller.Customer_view"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
+        <content>
+            <VBox id="_IDGenVBox" class="sapUIMediumMargin">
+                <Panel id="_IDGenPanel" headerText="Personal Details">
+                    <content>
+                        <form:SimpleForm id="_IDGenSimpleForm1" >
+                            <Label id="_IDGenLabel" text="Name"/>
+                            <Text id="customerName" text="{profile>/name}"/>
+                            <Label id="_IDGenLabel1" text="Email"/>
+                            <Text id="customerEmail" text="{profile>/email}"/>
+                            <Label id="_IDGenLabel2" text="Phone"/>
+                            <Text id="customerPhone" text="{profile>/phone}"/>
+                        </form:SimpleForm>
+                    </content>
+                </Panel>
+
+                <Button id="_IDGenButton"
+                    text="View My Accounts"
+                    type="Emphasized"
+                    press="onNavToAccounts"
+                    class="sapUIMediumMarginTop" />
+            </VBox>
+        </content>
     </Page>
 </mvc:View>

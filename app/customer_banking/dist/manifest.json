@@ -106,12 +106,39 @@
 					"target": [
 						"TargetCustomer_view"
 					]
+				},
+				{
+					"name": "RouteAccountList",
+					"pattern": "accounts",
+					"target": "accountList"
+				},
+				{
+					"name": "RouteAccountDetail",
+					"pattern": "accounts/{accountId}",
+					"target": "accountDetail"
+				},
+				{
+					"name": "RouteTransactionList",
+					"pattern": "accounts/{accountId}/transactions",
+					"target": "transactionList"
 				}
 			],
 			"targets": {
 				"TargetCustomer_view": {
 					"id": "Customer_view",
 					"name": "Customer_view"
+				},
+				"accountList": {
+					"id": "Account_List",
+					"name": "Account_List"
+				},
+				"accountDetail": {
+					"id": "Account_Detail",
+					"name": "Account_Detail"
+				},
+				"transactionList": {
+					"id": "Transaction_List",
+					"name": "Transaction_List"
 				}
 			}
 		},

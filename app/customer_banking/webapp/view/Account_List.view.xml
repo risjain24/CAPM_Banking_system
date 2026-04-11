@@ -1,0 +1,21 @@
+<mvc:View 
+    controllerName="customerbanking.controller.Account_List"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page id="_IDGenPage1" title="My Accounts" showNavButton="true" navButtonPress="onNavBack">
+        <content>
+            <List
+                id="accountList"
+                items="{/Accounts}"
+                mode="SingleSelectMaster"
+                selectionChange="onAccountSelected">
+
+                <StandardListItem id="_IDGenStandardListItem"
+                    title="{type}"
+                    description="Balance: {balance}"
+                    type="Navigation"/>
+            </List>
+        </content>
+    </Page>
+</mvc:View>
