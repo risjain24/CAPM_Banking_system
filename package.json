@@ -36,7 +36,7 @@
           "users": {
             "rish": {
               "roles": [
-                "AdminRole"
+                "Admin"
               ]
             }
           }
