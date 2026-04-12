@@ -10,6 +10,7 @@ entity Customers : cuid, managed {
   name     : String;
   email    : String;
   phone    : String;
+  address  : String;
   rm       : Association to RelationshipManagers;
   accounts : Composition of many Accounts
                on accounts.customer = $self;
@@ -50,4 +51,10 @@ entity Transactions : cuid, managed {
   transferRef : UUID;
   toAccount   : Association to Accounts;
   fromAccount : Association to Accounts;
+}
+
+entity Beneficiaries : cuid, managed {
+  customer    : Association to Customers;
+  toAccount   : Association to Accounts;
+  nickname    : String;
 }

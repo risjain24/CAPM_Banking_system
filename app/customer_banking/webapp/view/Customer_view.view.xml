@@ -4,17 +4,36 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
+        <headerContent>
+            <Toolbar id="_IDGenToolbar1">
+                <ToolbarSpacer id="_IDGenToolbarSpacer"/>
+                <Button
+                    id="editBtn"
+                    text="Edit"
+                    icon="sap-icon://edit"
+                    press="onEdit"/>
+                <Button
+                    id="saveBtn"
+                    text="Save"
+                    icon="sap-icon://save"
+                    type="Emphasized"
+                    press="onSave"
+                    visible="false"/>
+            </Toolbar>
+        </headerContent>
         <content>
             <VBox id="_IDGenVBox" class="sapUIMediumMargin">
                 <Panel id="_IDGenPanel" headerText="Personal Details">
                     <content>
                         <form:SimpleForm id="_IDGenSimpleForm1" >
                             <Label id="_IDGenLabel" text="Name"/>
-                            <Text id="customerName" text="{profile>/name}"/>
+                            <Input id="customerName" value="{profile>/name}" editable="false"/>
                             <Label id="_IDGenLabel1" text="Email"/>
-                            <Text id="customerEmail" text="{profile>/email}"/>
+                            <Input id="customerEmail" value="{profile>/email}" editable="false"/>
                             <Label id="_IDGenLabel2" text="Phone"/>
-                            <Text id="customerPhone" text="{profile>/phone}"/>
+                            <Input id="customerPhone" value="{profile>/phone}" editable="false"/>
+                            <Label id="_IDGenLabel7" text="Address"/>
+                            <Input id="customerAddress" value="{profile>/address}" editable="false"/>
                         </form:SimpleForm>
                     </content>
                 </Panel>
@@ -24,6 +43,12 @@
                     type="Emphasized"
                     press="onNavToAccounts"
                     class="sapUIMediumMarginTop" />
+                
+                <Button id="_IDGenButton1"
+                    text="Add Beneficiary"
+                    icon="sap-icon://add-contact"
+                    press="onAddBeneficiary"
+                    class="sapUiMediumMarginTop"/>
             </VBox>
         </content>
     </Page>

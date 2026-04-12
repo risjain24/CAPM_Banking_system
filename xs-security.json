@@ -4,25 +4,40 @@
   "scopes": [
     {
       "name": "$XSAPPNAME.Customer",
-      "description": "Customer Scope"
-    },
-    {
-      "name": "$XSAPPNAME.RM",
-      "description": "RM Scope"
+      "description": "Banking Customer"
     },
     {
       "name": "$XSAPPNAME.Admin",
-      "description": "Admin Scope"
+      "description": "Banking Admin"
     }
   ],
   "attributes": [],
   "role-templates": [
     {
-      "name": "AdminRole",
-      "description": "Admin Role",
+      "name": "Admin",
+      "description": "Banking Admin",
       "scope-references": [
         "$XSAPPNAME.Admin"
       ]
+    },
+    {
+      "name": "Customer",
+      "description": "Banking Customer",
+      "scope-references": [
+        "$XSAPPNAME.Customer"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "BankingCustomer",
+      "description": "Customer Role for customer_banking app",
+      "role-template-references": ["$XSAPPNAME.Customer"]
+    },
+    {
+      "name": "BankingAdmin",
+      "description": "Admin Role for customer_banking",
+      "role-template-references": ["$XSAPPNAME.Admin"]
     }
   ],
   "authorities-inheritance": false,

@@ -123,9 +123,9 @@ module.exports = (srv) => {
     });
 
     srv.on('initiateTransfer', async (req) => {
-        const { fromAccountId, toAccountNo,toIFSC, note } = req.data;
+        const { fromAccountId, toAccountNo, toIFSC, note } = req.data;
         const amount = parseFloat(req.data.amount);
-        
+
         if (amount <= 0) {
             req.error(400, "Transfer amount must be positive");
             return;
@@ -134,7 +134,7 @@ module.exports = (srv) => {
         const toAccount = await SELECT.one
             .from(Accounts)
             .where({ account_no: toAccountNo, ifsc_code: toIFSC });
-        
+
         if (!toAccount) {
             req.error(404, "Destination account not found");
             return;
@@ -200,6 +200,115 @@ module.exports = (srv) => {
         return `Transfer ${transferRef} completed successfully`;
     });
 
+    srv.on("addBeneficiary", async (req) => {
+        const { accountNo, ifscCode, nickname } = req.data;
+        const { Beneficiaries, Accounts } = srv.entities;
+
+        const customer = await getLoggedInCustomer(req);
+        if (!customer) return;
+
+        if (!nickname) {
+            req.error(404, "Enter a nickname");
+            return;
+        }
+
+        // Check account exists
+        const targetAccount = await SELECT.one
+            .from(Accounts)
+            .where({ account_no: accountNo, ifsc_code: ifscCode });
+
+        if (!targetAccount) {
+            req.error(404, "Account not found");
+            return;
+        }
+
+        // Prevent adding own account as beneficiary
+        if (targetAccount.ID === customer.ID) {
+            req.error(404, "Cannot add your own account as beneficiary");
+            return;
+        }
+
+        const existing = await SELECT.one
+            .from(Beneficiaries)
+            .where({
+                customer_ID: customer.ID,
+                toAccount_ID: targetAccount.ID
+            });
+
+        if (existing) {
+            req.error(404, "Beneficiary already exists");
+            return;
+        }
+
+        await srv.run(
+            INSERT.into(Beneficiaries).entries({
+                customer_ID: customer.ID,
+                toAccount_ID: targetAccount.ID,
+                nickname: nickname
+            })
+        );
+
+        return `Beneficiary added successfully`;
+    });
+
+    srv.on("removeBeneficiary", async (req) => {
+        const { beneficiaryId } = req.data;
+        const { Beneficiaries } = srv.entities;
+
+        const customer = await getLoggedInCustomer(req);
+        if (!customer) return;
+
+        // Verify beneficiary belongs to logged-in customer
+        const beneficiary = await SELECT.one
+            .from(Beneficiaries)
+            .where({
+                ID: beneficiaryId,
+                customer_ID: customer.ID
+            });
+
+        if (!beneficiary) {
+            req.error(404, "Beneficiary not found");
+            return;
+        }
+
+        await srv.run(
+            DELETE.from(Beneficiaries).where({ ID: beneficiaryId })
+        );
+
+        return `Beneficiary removed successfully`;
+    });
+
+    srv.on("updateMyProfile", async (req) => {
+
+        const { name, phone, address } = req.data;
+        const customer = await getLoggedInCustomer(req);
+        if (!customer) return;
+
+        // Validate
+        if (!name || name.trim() === "") {
+            req.error(400, "Name cannot be empty");
+            return;
+        }
+        if (!phone || phone.trim() === "") {
+            req.error(400, "Phone no cannot be empty");
+            return;
+        }
+
+        await srv.run(
+            UPDATE(Customers)
+                .set({ name, phone, address })
+                .where({ ID: customer.ID })
+        );
+
+        return "Profile updated successfully";
+    });
+
+    srv.before("READ", "Beneficiaries", async (req) => {
+        const customer = await getLoggedInCustomer(req);
+        if (!customer) return;
+        req.query.where({ customer_ID: customer.ID });
+    });
+
     srv.before("READ", "Customers", async (req) => {
         const email = req.user?.attr?.email ?? req.user?.id;
         req.query.where({ email });
@@ -226,5 +335,21 @@ module.exports = (srv) => {
         }
 
         req.query.where({ account_ID: { in: ids } });
+    });
+
+    srv.before("UPDATE", "Customers", async (req) => {
+        const customer = await getLoggedInCustomer(req);
+        if (!customer) {
+            req.error(403, "Customer not found");
+            return;
+        }
+
+        if (req.data.ID && req.data.ID !== customer.ID) {
+            req.error(403, "Cannot update another customer's profile");
+            return;
+        }
+
+        req.data.ID = customer.ID;
+        delete req.data.email;
     });
 }

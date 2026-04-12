@@ -29,14 +29,16 @@
       "destinations": true,
       "auth": {
         "[production]": {
-          "strategy": "xsuaa"
+          "strategy": "xsuaa",
+          "kind": "xsuaa"
         },
         "[development]": {
           "strategy": "mock",
           "users": {
-            "rish": {
+            "rishabhjain240900@gmail.com": {
               "roles": [
-                "Admin"
+                "Admin",
+                "Customer"
               ]
             }
           }

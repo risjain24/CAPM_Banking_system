@@ -24,6 +24,18 @@
           "odataVersion": "4.01"
         }
       }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "customer_banking-display": {
+          "semanticObject": "customer_banking",
+          "action": "display",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
     }
   },
   "sap.ui": {

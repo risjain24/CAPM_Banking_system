@@ -7,13 +7,13 @@
         <content>
             <List
                 id="accountList"
-                items="{/Accounts}"
+                items="{accountsModel>/accounts}"
                 mode="SingleSelectMaster"
                 selectionChange="onAccountSelected">
                 
                 <StandardListItem id="_IDGenStandardListItem"
-                    title="Account Number: {path: 'account_no',type: 'sap.ui.model.type.String'}"
-                    description="Type: {type}"
+                    title="Account Number: {path: 'accountsModel>account_no',type: 'sap.ui.model.type.String'}"
+                    description="Type: {accountsModel>type}"
                     type="Navigation"/>
             </List>
         </content>
