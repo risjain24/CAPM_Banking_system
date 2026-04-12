@@ -1,5 +1,5 @@
 <mvc:View
-    controllerName="customer.banking.controller.TransactionList"
+    controllerName="customerbanking.controller.Transaction_List"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
 

@@ -10,10 +10,10 @@
                 items="{/Accounts}"
                 mode="SingleSelectMaster"
                 selectionChange="onAccountSelected">
-
+                
                 <StandardListItem id="_IDGenStandardListItem"
-                    title="{type}"
-                    description="Balance: {balance}"
+                    title="Account Number: {path: 'account_no',type: 'sap.ui.model.type.String'}"
+                    description="Type: {type}"
                     type="Navigation"/>
             </List>
         </content>

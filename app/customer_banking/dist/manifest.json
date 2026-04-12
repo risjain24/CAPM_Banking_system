@@ -96,8 +96,7 @@
 				"type": "View",
 				"viewType": "XML",
 				"path": "customerbanking.view",
-				"async": true,
-				"viewPath": "customerbanking.view"
+				"async": true
 			},
 			"routes": [
 				{

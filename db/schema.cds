@@ -30,6 +30,8 @@ entity Admins : cuid, managed {
 entity Accounts : cuid, managed {
   type         : String;
   balance      : Decimal(15, 2);
+  account_no   : Decimal(8,0);
+  ifsc_code    : String;
   customer     : Association to Customers;
   transactions : Composition of many Transactions
                    on transactions.account = $self;

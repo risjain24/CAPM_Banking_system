@@ -8,6 +8,16 @@ sap.ui.define([
         onInit: function () {
             const oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("RouteAccountList").attachPatternMatched(this._onRouteMatched, this);
+
+            const oList = this.byId("accountList");
+            oList.bindItems({
+                path: "/Accounts",
+                template: new sap.m.StandardListItem({
+                    title: "Account Number: {account_no}",
+                    description: "Type: {type}",
+                    type: "Navigation"
+                })
+            });
         },
 
         _onRouteMatched: function () {

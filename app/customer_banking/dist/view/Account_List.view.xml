@@ -1,5 +1,5 @@
 <mvc:View 
-    controllerName="customer.banking.controller.AccountList"
+    controllerName="customerbanking.controller.Account_List"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
 
@@ -12,8 +12,8 @@
                 selectionChange="onAccountSelected">
 
                 <StandardListItem id="_IDGenStandardListItem"
-                    title="{type}"
-                    description="Balance: {balance}"
+                    title="Account Number: {account_no}"
+                    description="Type: {type}"
                     type="Navigation"/>
             </List>
         </content>

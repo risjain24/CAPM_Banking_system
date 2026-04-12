@@ -1,6 +1,6 @@
 <mvc:View 
     xmlns:form="sap.ui.layout.form"
-    controllerName="customer.banking.controller.AccountDetail"
+    controllerName="customerbanking.controller.Account_Detail"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
 
@@ -13,9 +13,13 @@
                     <content>
                         <form:SimpleForm id="_IDGenSimpleForm">
                             <Label id="_IDGenLabel3" text="Type"/>
-                            <Text id="accountType"/>
+                            <Text id="accountType" text="{account>/type}"/>
                             <Label id="_IDGenLabel4" text="Balance"/>
-                            <Text id="accountBalance"/>
+                            <Text id="accountBalance" text="{account>/balance}"/>
+                            <Label id="_IDGenLabel5" text="Account Number"/>
+                            <Text id="accountNumber" text="{account>/account_no}"/>
+                            <Label id="_IDGenLabel6" text="IFSC Code"/>
+                            <Text id="ifscCode" text="{account>/ifsc_code}"/>
                         </form:SimpleForm>
                     </content>
                 </Panel>

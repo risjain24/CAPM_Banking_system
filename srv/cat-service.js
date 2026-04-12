@@ -40,19 +40,22 @@ module.exports = (srv) => {
         const account = await verifyAccountOwnership(req, accountId);
         if (!account) return;
 
-        const newBalance = account.balance + amount;
+        const newBalance = parseFloat(account.balance) + parseFloat(amount);
+        await srv.run(
+            UPDATE(Accounts).set({ balance: newBalance }).where({ ID: accountId })
+        );
 
-        await UPDATE(Accounts).set({ balance: newBalance }).where({ ID: accountId });
-
-        await INSERT.into(Transactions).entries({
-            amount,
-            type: 'DEPOSIT',
-            account_ID: accountId,
-            note: null,
-            transferRef: null,
-            toAccount_ID: null,
-            fromAccount_ID: null
-        });
+        await srv.run(
+            INSERT.into(Transactions).entries({
+                amount,
+                type: 'DEPOSIT',
+                account_ID: accountId,
+                note: null,
+                transferRef: null,
+                toAccount_ID: null,
+                fromAccount_ID: null
+            })
+        );
 
         return newBalance;
     })
@@ -65,7 +68,7 @@ module.exports = (srv) => {
             return;
         }
 
-        const account = verifyAccountOwnership(req, accountId)
+        const account = await verifyAccountOwnership(req, accountId)
         if (!account) return;
 
         if (account.balance < amount) {
@@ -73,7 +76,7 @@ module.exports = (srv) => {
             return;
         }
 
-        const newBalance = account.balance - amount;
+        const newBalance = parseFloat(account.balance) - parseFloat(amount);
 
         await srv.run(
             UPDATE(Accounts)
@@ -120,16 +123,26 @@ module.exports = (srv) => {
     });
 
     srv.on('initiateTransfer', async (req) => {
-        const { fromAccountId, toAccountId, note } = req.data;
+        const { fromAccountId, toAccountNo,toIFSC, note } = req.data;
         const amount = parseFloat(req.data.amount);
-
-        // Basic validations
-        if (fromAccountId === toAccountId) {
-            req.error(400, "Source and destination accounts must differ");
-            return;
-        }
+        
         if (amount <= 0) {
             req.error(400, "Transfer amount must be positive");
+            return;
+        }
+
+        const toAccount = await SELECT.one
+            .from(Accounts)
+            .where({ account_no: toAccountNo, ifsc_code: toIFSC });
+        
+        if (!toAccount) {
+            req.error(404, "Destination account not found");
+            return;
+        }
+
+        // Basic validations
+        if (fromAccountId === toAccount.ID) {
+            req.error(400, "Source and destination accounts must differ");
             return;
         }
 
@@ -144,17 +157,8 @@ module.exports = (srv) => {
             return;
         }
 
-        const toAccount = await SELECT.one
-            .from(Accounts)
-            .where({ ID: toAccountId });
-
-        if (!toAccount) {
-            req.error(404, "Destination account not found");
-            return;
-        }
-
         const transferRef = cds.utils.uuid();
-        let updatedBalance = fromAccount.balance - amount;
+        let updatedBalance = parseFloat(fromAccount.balance) - amount;
 
         await srv.run(
             UPDATE(Accounts)
@@ -167,7 +171,7 @@ module.exports = (srv) => {
         await srv.run(
             UPDATE(Accounts)
                 .set({ balance: updatedBalance })
-                .where({ ID: toAccountId })
+                .where({ ID: toAccount.ID })
         );
 
         await srv.run(
@@ -175,10 +179,10 @@ module.exports = (srv) => {
                 {
                     type: "TRANSFER_OUT",
                     amount,
-                    note: note ?? `Transfer to account ${toAccountId}`,
+                    note: note ?? `Transfer to account ${toAccount.ID}`,
                     transferRef,
                     account_ID: fromAccountId,
-                    toAccount_ID: toAccountId,
+                    toAccount_ID: toAccount.ID,
                     fromAccount_ID: null,
                 },
                 {
@@ -186,7 +190,7 @@ module.exports = (srv) => {
                     amount,
                     note: note ?? `Transfer from account ${fromAccountId}`,
                     transferRef,
-                    account_ID: toAccountId,
+                    account_ID: toAccount.ID,
                     fromAccount_ID: fromAccountId,
                     toAccount_ID: null,
                 },

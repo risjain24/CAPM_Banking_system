@@ -18,7 +18,8 @@ service BankingService {
         };
 
     action   initiateTransfer(fromAccountId: UUID,
-                              toAccountId: UUID,
+                              toAccountNo: Decimal(8,0),
+                              toIFSC: String,
                               amount: Decimal(15, 2),
                               note: String)             returns String;
 
