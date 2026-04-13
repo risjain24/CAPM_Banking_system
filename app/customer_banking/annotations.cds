@@ -1,1 +1,0 @@
-using BankingService as service from '../../srv/cat-service';

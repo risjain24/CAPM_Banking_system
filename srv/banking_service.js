@@ -303,24 +303,24 @@ module.exports = (srv) => {
         return "Profile updated successfully";
     });
 
-    srv.before("READ", "Beneficiaries", async (req) => {
+    srv.before("READ", "BankingService.Beneficiaries", async (req) => {
         const customer = await getLoggedInCustomer(req);
         if (!customer) return;
         req.query.where({ customer_ID: customer.ID });
     });
 
-    srv.before("READ", "Customers", async (req) => {
+    srv.before("READ", "BankingService.Customers", async (req) => {
         const email = req.user?.attr?.email ?? req.user?.id;
         req.query.where({ email });
     });
 
-    srv.before("READ", "Accounts", async (req) => {
+    srv.before("READ", "BankingService.Accounts", async (req) => {
         const customer = await getLoggedInCustomer(req);
         if (!customer) return;
         req.query.where({ customer_ID: customer.ID });
     });
 
-    srv.before("READ", "Transactions", async (req) => {
+    srv.before("READ", "BankingService.Transactions", async (req) => {
         const customer = await getLoggedInCustomer(req);
         if (!customer) return;
 
@@ -337,7 +337,7 @@ module.exports = (srv) => {
         req.query.where({ account_ID: { in: ids } });
     });
 
-    srv.before("UPDATE", "Customers", async (req) => {
+    srv.before("UPDATE", "BankingService.Customers", async (req) => {
         const customer = await getLoggedInCustomer(req);
         if (!customer) {
             req.error(403, "Customer not found");

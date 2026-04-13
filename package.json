@@ -21,7 +21,8 @@
     "watch-banking_capm": "cds watch --open bankingcapm/index.html?sap-ui-xx-viewCache=false --livereload false",
     "undeploy": "cf undeploy banking_capm --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
-    "watch-customer_banking": "cds watch --open customerbanking/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-customer_banking": "cds watch --open customerbanking/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-bank_admin": "cds watch --open bankadmin/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "private": true,
   "cds": {
@@ -55,6 +56,7 @@
     "app/*"
   ],
   "sapux": [
-    "app/banking_capm"
+    "app/banking_capm",
+    "app/bank_admin"
   ]
 }

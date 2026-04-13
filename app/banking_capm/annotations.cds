@@ -1,4 +1,5 @@
-using BankingService as service from '../../srv/cat-service';
+using BankingService as service from '../../srv/banking_service';
+
 annotate service.Customers with @(
     UI.FieldGroup #GeneratedGroup : {
         $Type : 'UI.FieldGroupType',
