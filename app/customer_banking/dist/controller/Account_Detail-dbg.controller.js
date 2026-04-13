@@ -58,10 +58,6 @@ sap.ui.define([
 
         // ── Transfer Dialog ─────────────────────────────────────────────
         onTransfer: async function () {
-            const oToAccountInput = new Input({ placeholder: "Recipient Account Number", type: "Number" });
-            const oToIFSCInput = new Input({ placeholder: "IFSC Code", type: "Text" });
-            const oAmountInput = new Input({ placeholder: "Amount", type: "Number" });
-            const oNoteInput = new Input({ placeholder: "Note (optional)", type: "Text" });
 
             const oModel = this.getView().getModel();
 
@@ -73,7 +69,7 @@ sap.ui.define([
             }).catch((oError) => {
                 this._openTransferDialog([]);
             });
-            
+
         },
 
         _openTransferDialog: function (beneficiaries) {
