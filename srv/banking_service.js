@@ -32,6 +32,8 @@ module.exports = (srv) => {
     srv.on('deposit', async (req) => {
         const { accountId, amount } = req.data;
 
+        amount = parseFloat(parseFloat(amount).toFixed(2));
+
         if (amount <= 0) {
             req.error(400, 'Amount must be positive');
             return;
@@ -62,6 +64,8 @@ module.exports = (srv) => {
 
     srv.on('withdraw', async (req) => {
         const { accountId, amount } = req.data;
+
+        amount = parseFloat(parseFloat(amount).toFixed(2));
 
         if (amount <= 0) {
             req.error(400, "Amount must be positive");
@@ -124,9 +128,9 @@ module.exports = (srv) => {
 
     srv.on('initiateTransfer', async (req) => {
         const { fromAccountId, toAccountNo, toIFSC, note } = req.data;
-        const amount = parseFloat(req.data.amount);
+        const amountf = parseFloat(req.data.amount);
 
-        if (amount <= 0) {
+        if (amountf <= 0) {
             req.error(400, "Transfer amount must be positive");
             return;
         }
@@ -149,7 +153,7 @@ module.exports = (srv) => {
         const fromAccount = await verifyAccountOwnership(req, fromAccountId);
         if (!fromAccount) return;
 
-        if (fromAccount.balance < amount) {
+        if (fromAccount.balance < amountf) {
             req.error(
                 400,
                 `Insufficient balance. Available: ${fromAccount.balance}`
@@ -158,7 +162,7 @@ module.exports = (srv) => {
         }
 
         const transferRef = cds.utils.uuid();
-        let updatedBalance = parseFloat(fromAccount.balance) - amount;
+        let updatedBalance = parseFloat((parseFloat(fromAccount.balance) - amountf).toFixed(2));
 
         await srv.run(
             UPDATE(Accounts)
@@ -166,7 +170,7 @@ module.exports = (srv) => {
                 .where({ ID: fromAccountId })
         );
 
-        updatedBalance = parseFloat(toAccount.balance) + amount;
+        updatedBalance = parseFloat((parseFloat(toAccount.balance) + amountf).toFixed(2));
 
         await srv.run(
             UPDATE(Accounts)
@@ -178,7 +182,7 @@ module.exports = (srv) => {
             INSERT.into(Transactions).entries([
                 {
                     type: "TRANSFER_OUT",
-                    amount,
+                    amount: amountf,
                     note: note ?? `Transfer to account ${toAccount.ID}`,
                     transferRef,
                     account_ID: fromAccountId,
@@ -187,7 +191,7 @@ module.exports = (srv) => {
                 },
                 {
                     type: "TRANSFER_IN",
-                    amount,
+                    amount: amountf,
                     note: note ?? `Transfer from account ${fromAccountId}`,
                     transferRef,
                     account_ID: toAccount.ID,
