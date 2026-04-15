@@ -112,7 +112,7 @@ annotate service.Accounts with @(
 
     Capabilities: {
         Insertable: true,
-        Updatable:  true,
+        Updatable:  false,
         Deletable:  true
     }
 );
