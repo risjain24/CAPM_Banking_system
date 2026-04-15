@@ -191,7 +191,9 @@ sap.ui.define([
 
             try {
                 await oAction.execute();
-                sap.m.MessageToast.show("Action completed successfully");
+                const oActionContext = oAction.getBoundContext();
+                const oMessage = oActionContext?.getProperty("value");
+                sap.m.MessageToast.show( oMessage || "Action completed successfully");
 
                 this._loadAccount;
             } catch (oError) {

@@ -17,6 +17,7 @@ sap.ui.define([
             // Bind transaction list filtered to this account
             this.byId("transactionList").bindItems({
                 path: "/Transactions",
+                sorter: new sap.ui.model.Sorter("createdAt", true),
                 filters: [new sap.ui.model.Filter(
                     "account_ID", sap.ui.model.FilterOperator.EQ, accountId
                 )],

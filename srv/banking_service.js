@@ -30,9 +30,9 @@ module.exports = (srv) => {
     };
 
     srv.on('deposit', async (req) => {
-        const { accountId, amount } = req.data;
+        const { accountId, amount: amountI } = req.data;
 
-        amount = parseFloat(parseFloat(amount).toFixed(2));
+        const amount = parseFloat(parseFloat(amountI).toFixed(2));
 
         if (amount <= 0) {
             req.error(400, 'Amount must be positive');
@@ -42,7 +42,7 @@ module.exports = (srv) => {
         const account = await verifyAccountOwnership(req, accountId);
         if (!account) return;
 
-        const newBalance = parseFloat(account.balance) + parseFloat(amount);
+        const newBalance = parseFloat((parseFloat(account.balance) + parseFloat(amount)).toFixed(2));
         await srv.run(
             UPDATE(Accounts).set({ balance: newBalance }).where({ ID: accountId })
         );
@@ -59,13 +59,13 @@ module.exports = (srv) => {
             })
         );
 
-        return newBalance;
+        return `Amount deposited, Updated Balance: ${newBalance}`;
     })
 
     srv.on('withdraw', async (req) => {
-        const { accountId, amount } = req.data;
+        const { accountId, amount: amountI } = req.data;
 
-        amount = parseFloat(parseFloat(amount).toFixed(2));
+        const amount = parseFloat(parseFloat(amountI).toFixed(2));
 
         if (amount <= 0) {
             req.error(400, "Amount must be positive");
@@ -80,7 +80,7 @@ module.exports = (srv) => {
             return;
         }
 
-        const newBalance = parseFloat(account.balance) - parseFloat(amount);
+        const newBalance = parseFloat((parseFloat(account.balance) - parseFloat(amount)).toFixed(2));
 
         await srv.run(
             UPDATE(Accounts)
@@ -91,7 +91,7 @@ module.exports = (srv) => {
         await srv.run(
             INSERT.into(Transactions).entries({
                 amount,
-                type: 'DEBIT',
+                type: 'WITHDRAWAL',
                 account_ID: accountId,
                 note: null,
                 transferRef: null,
@@ -100,7 +100,7 @@ module.exports = (srv) => {
             })
         );
 
-        return newBalance;
+        return `Amount withdrawn, Updated Balance: ${newBalance}`;
     });
 
     srv.on('getBalance', async (req) => {

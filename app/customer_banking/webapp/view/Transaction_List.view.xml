@@ -8,11 +8,6 @@
             <List
                 id="transactionList"
                 noDataText="No transactions found">
-
-                <StandardListItem id="_IDGenStandardListItem2"
-                    title="{type}"
-                    description="Amount: {amount} | {note}"
-                    info="{createdAt}"/>
             </List>
         </content>
     </Page>
