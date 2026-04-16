@@ -83,6 +83,7 @@ annotate service.Accounts with @(
 
     UI.LineItem: [
         { $Type: 'UI.DataField', Label: 'Account Number', Value: account_no },
+        { $Type: 'UI.DataField', Label: 'IFSC_Code',      Value: ifsc_code  },
         { $Type: 'UI.DataField', Label: 'Type',           Value: type       },
         { $Type: 'UI.DataField', Label: 'Balance',        Value: balance    },
     ],
@@ -98,6 +99,7 @@ annotate service.Accounts with @(
         $Type: 'UI.FieldGroupType',
         Data: [
             { $Type: 'UI.DataField', Label: 'Account Number', Value: account_no },
+            { $Type: 'UI.DataField', Label: 'IFSC Code',      Value: ifsc_code  },
             { $Type: 'UI.DataField', Label: 'Type',           Value: type       },
             { $Type: 'UI.DataField', Label: 'Balance',        Value: balance    },
         ],
@@ -112,7 +114,7 @@ annotate service.Accounts with @(
 
     Capabilities: {
         Insertable: true,
-        Updatable:  false,
+        Updatable:  true,
         Deletable:  true
     }
 );
