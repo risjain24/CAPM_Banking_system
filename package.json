@@ -46,7 +46,14 @@
         }
       },
       "db": {
-        "kind": "hana-cloud"
+        "kind": "sqlite"
+      },
+      "[hybrid]": {
+        "requires": {
+          "db": {
+            "kind": "hana"
+          }
+        }
       },
       "html5-repo": true,
       "workzone": true
